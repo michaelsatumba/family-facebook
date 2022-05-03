@@ -10,12 +10,20 @@ export default function Home() {
 		// alert('click');
 		const provider = new GoogleAuthProvider();
 		signInWithPopup(authentication, provider)
-			.then((re) => {
-				console.log(re);
-				router.push('/Home');
+			.then((result) => {
+				console.log(result);
+				const user = result.user;
+				const name = user.displayName;
+				router.push(
+					{
+						pathname: '/Home',
+						query: { name },
+					},
+					'/Home'
+				);
 			})
-			.catch((err) => {
-				console.log(err);
+			.catch((error) => {
+				console.log(error);
 			});
 	};
 	return (
