@@ -14,10 +14,11 @@ export default function Home() {
 				console.log(result);
 				const user = result.user;
 				const name = user.displayName;
+				const photo = user.photoURL;
 				router.push(
 					{
 						pathname: '/Home',
-						query: { name },
+						query: { name, photo },
 					},
 					'/Home'
 				);
