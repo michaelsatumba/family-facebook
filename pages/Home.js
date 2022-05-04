@@ -1,19 +1,32 @@
+import { useEffect, useState } from 'react';
 import { authentication } from '../firebase';
-import { signOut } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
 function Home() {
+	// const [user, setUser] = useState(null);
 	const router = useRouter();
 
-	const {
-		query: { name, photo },
-	} = router;
+	const user = authentication.currentUser;
 
-	const props = {
-		name,
-		photo,
-	};
+	if (user) {
+		console.log('signed in');
+		// console.log(user);
+		// router.push('/');
+	} else {
+		console.log('not signed in');
+		// router.push('/');
+	}
+
+	// const {
+	// 	query: { name, photo },
+	// } = router;
+
+	// const props = {
+	// 	name,
+	// 	photo,
+	// };
 
 	const logout = () => {
 		signOut(authentication)
@@ -28,7 +41,7 @@ function Home() {
 	return (
 		<div>
 			<div className="flex justify-evenly">
-				<p>Welcome {props.name} </p>
+				{/* <p>Welcome {props.name} </p>
 
 				<button onClick={logout}>
 					<div className="h-14 w-14 relative rounded-lg">
@@ -39,7 +52,7 @@ function Home() {
 							className="rounded-full"
 						/>
 					</div>
-				</button>
+				</button> */}
 			</div>
 		</div>
 	);
