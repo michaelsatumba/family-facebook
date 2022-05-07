@@ -9,12 +9,19 @@ function Home() {
 	const router = useRouter();
 
 	const [user, setUser] = useState();
+	const [picture, setPicture] = useState();
 
 	useEffect(() => {
 		onAuthStateChanged(authentication, (user) => {
 			if (user) {
 			  console.log('signed in');
 			  setUser(user)
+			  setPicture(<Image
+				src={user?.photoURL}
+				alt="userPhoto"
+				layout="fill"
+				className="rounded-full"
+			/>)
 			} else {
 			  // User is signed out
 			  // ...
@@ -42,12 +49,7 @@ function Home() {
 
 				<button onClick={logout}>
 					<div className="h-14 w-14 relative rounded-lg">
-						<Image
-							src={user?.photoURL}
-							alt="userPhoto"
-							layout="fill"
-							className="rounded-full"
-						/>
+					{picture}
 					</div>
 				</button>
 			</div>
