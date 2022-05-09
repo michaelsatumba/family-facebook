@@ -54,9 +54,10 @@ function Home() {
 			snapshot.docs.forEach((doc) => {
 				post.push({ ...doc.data(), id: doc.id });
 			});
+			console.log(new Date(post[0].timestamp.seconds * 1000).getHours());
 			setPosts(post);
 		});
-	});
+	}, [db]);
 
 	const logout = () => {
 		signOut(authentication)
@@ -110,7 +111,15 @@ function Home() {
 					<div key={id}>
 						<p>{post.text}</p>
 						<p>by {post.author}</p>
-						{/* <p>{post.timestamp}</p> */}
+						{/* <p>
+							{`${new Date(
+								post.timestamp.seconds * 1000
+							).getMinutes()}:0${new Date(
+								post.timestamp.seconds * 1000
+							).getMinutes()}`}{' '}
+							minutes ago
+						</p> */}
+
 						<button className="bg-red-500" onClick={() => remove(post)}>
 							Delete
 						</button>
