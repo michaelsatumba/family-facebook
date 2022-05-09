@@ -109,6 +109,8 @@ function Home() {
 				{posts.map((post, id) => (
 					<div key={id}>
 						<p>{post.text}</p>
+						<p>by {post.author}</p>
+						{/* <p>{post.timestamp}</p> */}
 						<button className="bg-red-500" onClick={() => remove(post)}>
 							Delete
 						</button>
