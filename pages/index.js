@@ -12,16 +12,7 @@ export default function Home() {
 		signInWithPopup(authentication, provider)
 			.then((result) => {
 				console.log(result);
-				const user = result.user;
-				const name = user.displayName;
-				const photo = user.photoURL;
-				router.push(
-					{
-						pathname: '/Home',
-						query: { name, photo },
-					},
-					'/Home'
-				);
+				router.push('/Home');
 			})
 			.catch((error) => {
 				console.log(error);
