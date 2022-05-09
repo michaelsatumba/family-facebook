@@ -8,6 +8,9 @@ import {
 	serverTimestamp,
 	deleteDoc,
 	doc,
+	orderBy,
+	onSnapshot,
+	query,
 } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -42,24 +45,18 @@ function Home() {
 				router.push('/');
 			}
 		});
+	}, []);
 
-		getDocs(colRef)
-			.then((snapshot) => {
-				let post = [];
-				let ex = [];
-				snapshot.docs.forEach((doc) => {
-					post.push({ ...doc.data() });
-				});
-				// snapshot.docs.forEach((doc) => {
-				// 	ex.push({ ...doc });
-				// });
-				// console.log(ex);
-				setPosts(post);
-			})
-			.catch((err) => {
-				console.error(err.message);
+	useEffect(() => {
+		const q = query(colRef, orderBy('timestamp', 'desc'));
+		onSnapshot(q, (snapshot) => {
+			let post = [];
+			snapshot.docs.forEach((doc) => {
+				post.push({ ...doc.data(), id: doc.id });
 			});
-	}, [input]);
+			setPosts(post);
+		});
+	});
 
 	const logout = () => {
 		signOut(authentication)
@@ -83,13 +80,9 @@ function Home() {
 		setInput('');
 	};
 
-	const remove = (index) => {
+	const remove = async (post) => {
 		// alert('remove');
-		console.log(index);
-		// const docRef = doc(db, 'post', '45ZTswNoSp1PdpU06EvL');
-		// deleteDoc(docRef).then(() => {
-		// 	window.location.reload();
-		// });
+		await deleteDoc(doc(db, 'post', post.id));
 	};
 	return (
 		<div>
@@ -113,10 +106,10 @@ function Home() {
 
 			<p>posts</p>
 			<div>
-				{posts.map((post, index) => (
-					<div key={index}>
+				{posts.map((post, id) => (
+					<div key={id}>
 						<p>{post.text}</p>
-						<button className="bg-red-500" onClick={remove}>
+						<button className="bg-red-500" onClick={() => remove(post)}>
 							Delete
 						</button>
 					</div>
