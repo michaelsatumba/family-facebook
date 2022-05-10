@@ -22,6 +22,7 @@ function Home() {
 	const [picture, setPicture] = useState();
 	const [input, setInput] = useState('');
 	const [posts, setPosts] = useState(['hello', 'hi', 'world']);
+	const [postPicture, setPostPicture] = useState();
 
 	const colRef = collection(db, 'post');
 
@@ -54,9 +55,21 @@ function Home() {
 			snapshot.docs.forEach((doc) => {
 				post.push({ ...doc.data(), id: doc.id });
 			});
-			console.log(new Date(post[0].timestamp.seconds * 1000).getHours());
+			// console.log(new Date(post[0].timestamp.seconds * 1000).getHours());
 			setPosts(post);
+			// if (post) {
+			// 	setPostPicture(
+			// 	<Image
+			// 		src={post?.photoURL}
+			// 		alt="userPhoto"
+			// 		layout="fill"
+			// 		className="rounded-full"
+			// 	/>
+			// );
+			// }
+			
 		});
+		
 	}, [db]);
 
 	const logout = () => {
@@ -70,12 +83,13 @@ function Home() {
 			});
 	};
 
-	const post = (e) => {
+	const submit = (e) => {
 		// alert('post');
 		e.preventDefault();
 		addDoc(colRef, {
 			text: input,
 			author: user.displayName,
+			photoURL: user.photoURL,
 			timestamp: serverTimestamp(),
 		});
 		setInput('');
@@ -102,7 +116,7 @@ function Home() {
 					onChange={(e) => setInput(e.target.value)}
 				/>
 
-				<button onClick={post}>Post</button>
+				<button onClick={submit}>Post</button>
 			</form>
 
 			<p>posts</p>
@@ -111,13 +125,15 @@ function Home() {
 					<div key={id}>
 						<p>{post.text}</p>
 						<p>by {post.author}</p>
+						<div className="h-14 w-14 relative rounded-lg">
+						{postPicture}
+					</div>
+					<p>{post.photoURL}</p>
+					
 						{/* <p>
 							{`${new Date(
 								post.timestamp.seconds * 1000
-							).getMinutes()}:0${new Date(
-								post.timestamp.seconds * 1000
-							).getMinutes()}`}{' '}
-							minutes ago
+							).getYear()}`}
 						</p> */}
 
 						<button className="bg-red-500" onClick={() => remove(post)}>
