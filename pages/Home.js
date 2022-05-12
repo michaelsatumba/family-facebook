@@ -57,19 +57,18 @@ function Home() {
 			});
 			// console.log(new Date(post[0].timestamp.seconds * 1000).getHours());
 			setPosts(post);
-			// if (post) {
-			// 	setPostPicture(
+
+			// setPostPicture(
 			// 	<Image
-			// 		src={post?.photoURL}
+			// 		src={post[1].photoURL}
 			// 		alt="userPhoto"
 			// 		layout="fill"
 			// 		className="rounded-full"
 			// 	/>
 			// );
-			// }
-			
+			// console.log(postPicture);
+			// console.log(post[0].photoURL);
 		});
-		
 	}, [db]);
 
 	const logout = () => {
@@ -100,15 +99,16 @@ function Home() {
 		await deleteDoc(doc(db, 'post', post.id));
 	};
 	return (
-		<div>
-			<div className="flex justify-evenly">
+		<div className="">
+			<div className="flex justify-evenly items-center ">
 				<p>Welcome {user?.displayName} </p>
 
 				<button onClick={logout}>
 					<div className="h-14 w-14 relative rounded-lg">{picture}</div>
 				</button>
 			</div>
-			<form>
+
+			<form className="flex flex-col  items-center">
 				<input
 					className="bg-red-500"
 					value={input}
@@ -116,31 +116,50 @@ function Home() {
 					onChange={(e) => setInput(e.target.value)}
 				/>
 
-				<button onClick={submit}>Post</button>
+				<button className="bg-red-500 my-2" onClick={submit}>
+					Post
+				</button>
 			</form>
 
-			<p>posts</p>
-			<div>
-				{posts.map((post, id) => (
-					<div key={id}>
-						<p>{post.text}</p>
-						<p>by {post.author}</p>
-						<div className="h-14 w-14 relative rounded-lg">
-						{postPicture}
-					</div>
-					<p>{post.photoURL}</p>
-					
-						{/* <p>
+			<div className="flex flex-col items-center ">
+				<p>Posts</p>
+				<div>
+					{posts.map((post, id) => (
+						<div key={id}>
+							<p>{post.text}</p>
+							<p>by {post.author}</p>
+							<div className="h-14 w-14 relative rounded-lg">
+								{post ? (
+									<Image
+										src={post.photoURL}
+										alt="userPhoto"
+										layout="fill"
+										className="rounded-full"
+									/>
+								) : (
+									<Image
+										src={
+											'https://lh3.googleusercontent.com/a-/AOh14GgB5xdCeenPBOKwrq8P6nmoJl3Kc0kI3Cd9Q0RN1g=s96-c'
+										}
+										alt="userPhoto"
+										layout="fill"
+										className="rounded-full"
+									/>
+								)}
+							</div>
+
+							{/* <p>
 							{`${new Date(
 								post.timestamp.seconds * 1000
 							).getYear()}`}
 						</p> */}
 
-						<button className="bg-red-500" onClick={() => remove(post)}>
-							Delete
-						</button>
-					</div>
-				))}
+							<button className="bg-red-500" onClick={() => remove(post)}>
+								Delete
+							</button>
+						</div>
+					))}
+				</div>
 			</div>
 		</div>
 	);
