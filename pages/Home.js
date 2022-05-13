@@ -22,7 +22,6 @@ function Home() {
 	const [picture, setPicture] = useState();
 	const [input, setInput] = useState('');
 	const [posts, setPosts] = useState(['hello', 'hi', 'world']);
-	const [postPicture, setPostPicture] = useState();
 
 	const colRef = collection(db, 'post');
 
@@ -40,8 +39,6 @@ function Home() {
 					/>
 				);
 			} else {
-				// User is signed out
-				// ...
 				console.log('not signed in');
 				router.push('/');
 			}
@@ -55,26 +52,13 @@ function Home() {
 			snapshot.docs.forEach((doc) => {
 				post.push({ ...doc.data(), id: doc.id });
 			});
-			// console.log(new Date(post[0].timestamp.seconds * 1000).getHours());
 			setPosts(post);
-
-			// setPostPicture(
-			// 	<Image
-			// 		src={post[1].photoURL}
-			// 		alt="userPhoto"
-			// 		layout="fill"
-			// 		className="rounded-full"
-			// 	/>
-			// );
-			// console.log(postPicture);
-			// console.log(post[0].photoURL);
 		});
 	}, [db]);
 
 	const logout = () => {
 		signOut(authentication)
 			.then(() => {
-				// alert('signOut');
 				router.push('/');
 			})
 			.catch((error) => {
@@ -83,7 +67,6 @@ function Home() {
 	};
 
 	const submit = (e) => {
-		// alert('post');
 		e.preventDefault();
 		addDoc(colRef, {
 			text: input,
@@ -95,7 +78,6 @@ function Home() {
 	};
 
 	const remove = async (post) => {
-		// alert('remove');
 		await deleteDoc(doc(db, 'post', post.id));
 	};
 	return (
@@ -126,34 +108,13 @@ function Home() {
 				<div>
 					{posts.map((post, id) => (
 						<div key={id}>
-							<p>{post.text}</p>
+							<input
+								type="text"
+								value={post.text}
+								onChange={(e) => console.log(e.target.value, id)}
+							/>
 							<p>by {post.author}</p>
-							<div className="h-14 w-14 relative rounded-lg">
-								{post ? (
-									<Image
-										src={post.photoURL}
-										alt="userPhoto"
-										layout="fill"
-										className="rounded-full"
-									/>
-								) : (
-									<Image
-										src={
-											'https://lh3.googleusercontent.com/a-/AOh14GgB5xdCeenPBOKwrq8P6nmoJl3Kc0kI3Cd9Q0RN1g=s96-c'
-										}
-										alt="userPhoto"
-										layout="fill"
-										className="rounded-full"
-									/>
-								)}
-							</div>
-
-							{/* <p>
-							{`${new Date(
-								post.timestamp.seconds * 1000
-							).getYear()}`}
-						</p> */}
-
+							<button className="bg-blue-500">Update</button>
 							<button className="bg-red-500" onClick={() => remove(post)}>
 								Delete
 							</button>
