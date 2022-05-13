@@ -11,6 +11,7 @@ import {
 	orderBy,
 	onSnapshot,
 	query,
+	updateDoc,
 } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -22,6 +23,7 @@ function Home() {
 	const [picture, setPicture] = useState();
 	const [input, setInput] = useState('');
 	const [posts, setPosts] = useState(['hello', 'hi', 'world']);
+	const [inputTwo, setInputTwo] = useState();
 
 	const colRef = collection(db, 'post');
 
@@ -80,6 +82,17 @@ function Home() {
 	const remove = async (post) => {
 		await deleteDoc(doc(db, 'post', post.id));
 	};
+
+	const handleUpdate = async (post) => {
+		await updateDoc(
+			doc(db, 'post', post.id),
+			{
+				text: inputTwo,
+				timestamp: serverTimestamp(),
+			},
+			{ merge: true }
+		);
+	};
 	return (
 		<div className="">
 			<div className="flex justify-evenly items-center ">
@@ -108,13 +121,20 @@ function Home() {
 				<div>
 					{posts.map((post, id) => (
 						<div key={id}>
-							<input
+							{/* <input
 								type="text"
-								value={post.text}
-								onChange={(e) => console.log(e.target.value, id)}
-							/>
+								placeholder={post.text}
+								value={inputTwo}
+								onChange={(e) => setInputTwo(e.target.value)}
+							/> */}
+							{/* <p>{post.text}</p> */}
 							<p>by {post.author}</p>
-							<button className="bg-blue-500">Update</button>
+							<button
+								className="bg-blue-500"
+								onClick={() => handleUpdate(post)}
+							>
+								Update
+							</button>
 							<button className="bg-red-500" onClick={() => remove(post)}>
 								Delete
 							</button>
