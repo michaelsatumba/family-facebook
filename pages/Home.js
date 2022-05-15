@@ -83,15 +83,35 @@ function Home() {
 		await deleteDoc(doc(db, 'post', post.id));
 	};
 
-	const handleUpdate = async (post) => {
+	const handleUpdate = async (e, post) => {
 		await updateDoc(
 			doc(db, 'post', post.id),
 			{
-				text: inputTwo,
+				text: e.target.value,
 				timestamp: serverTimestamp(),
 			},
 			{ merge: true }
 		);
+	};
+
+	//M2: we are mapping through the posts... and in instances where the id matches, copy the other fields and replace text: e.target.value
+	// else where id does not match, return copy of the post
+	const handleChange = (e, id) => {
+		setPosts((posts) => {
+			//(M2) Here
+			return posts.map((post) => {
+				if (post.id === id) {
+					return {
+						...post,
+						text: e.target.value,
+					};
+				} else {
+					return {
+						...post,
+					};
+				}
+			});
+		});
 	};
 	return (
 		<div className="">
@@ -121,17 +141,17 @@ function Home() {
 				<div>
 					{posts.map((post, id) => (
 						<div key={id}>
-							{/* <input
+							<input
 								type="text"
-								placeholder={post.text}
-								value={inputTwo}
-								onChange={(e) => setInputTwo(e.target.value)}
-							/> */}
+								// placeholder={post.text}
+								value={post.text}
+								onChange={(e) => handleChange(e, post.id)}
+							/>
 							{/* <p>{post.text}</p> */}
 							<p>by {post.author}</p>
 							<button
 								className="bg-blue-500"
-								onClick={() => handleUpdate(post)}
+								onClick={(e) => handleUpdate(e, post)}
 							>
 								Update
 							</button>
