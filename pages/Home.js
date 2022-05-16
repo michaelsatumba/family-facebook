@@ -114,29 +114,30 @@ function Home() {
 		});
 	};
 	return (
-		<div className="">
-			<div className="flex justify-evenly items-center ">
-				<p>Welcome {user?.displayName} </p>
+		<div className="h-screen bg-gray-900">
+			<div className="flex justify-evenly items-center p-3 bg-gray-700">
+				<p className="text-white">Welcome {user?.displayName} </p>
 
 				<button onClick={logout}>
 					<div className="h-14 w-14 relative rounded-lg">{picture}</div>
 				</button>
 			</div>
 
-			<form className="flex flex-col  items-center">
+			<form className="flex flex-col items-center p-3 text-white mt-2 bg-gray-700 border-2">
 				<input
-					className="bg-red-500"
+					className="bg-gray-500 rounded-full px-4 py-2"
 					value={input}
+					placeholder="What's on your mind?"
 					type="text"
 					onChange={(e) => setInput(e.target.value)}
 				/>
 
-				<button className="bg-red-500 my-2" onClick={submit}>
+				<button className="bg-blue-500 my-2" onClick={submit}>
 					Post
 				</button>
 			</form>
 
-			<div className="flex flex-col items-center ">
+			<div className="flex flex-col items-center text-white">
 				<p>Posts</p>
 				<div>
 					{posts.map((post, id) => (
@@ -147,7 +148,7 @@ function Home() {
 								value={post.text}
 								onChange={(e) => handleChange(e, post.id)}
 							/>
-							{/* <p>{post.text}</p> */}
+							<p>{post.text}</p>
 							<p>by {post.author}</p>
 							<button
 								className="bg-blue-500"
