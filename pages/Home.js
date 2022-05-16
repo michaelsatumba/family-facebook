@@ -24,6 +24,7 @@ function Home() {
 	const [input, setInput] = useState('');
 	const [posts, setPosts] = useState(['hello', 'hi', 'world']);
 	const [inputTwo, setInputTwo] = useState();
+	// const [incompleteForm, setIncompleteForm] = useState('bg-gray-500');
 
 	const colRef = collection(db, 'post');
 
@@ -113,8 +114,9 @@ function Home() {
 			});
 		});
 	};
+	const incompleteForm = !input;
 	return (
-		<div className="h-full bg-gray-900">
+		<div className="min-h-screen bg-gray-900">
 			<div className="flex justify-evenly items-center p-3 bg-gray-700">
 				<p className="text-white">Welcome {user?.displayName} </p>
 
@@ -133,7 +135,10 @@ function Home() {
 				/>
 
 				<button
-					className="bg-blue-500 my-2 rounded-md px-40 py-1"
+					className={`${
+						incompleteForm ? 'bg-gray-500' : 'bg-blue-500'
+					} my-2 rounded-md px-40 py-1`}
+					disabled={incompleteForm}
 					onClick={submit}
 				>
 					Post
@@ -143,7 +148,10 @@ function Home() {
 			<div className="flex flex-col items-center text-white">
 				<div>
 					{posts.map((post, id) => (
-						<div key={id}>
+						<div
+							key={id}
+							className="bg-gray-700 my-2 w-screen flex flex-col items-center"
+						>
 							{/* <input
 								type="text"
 								// placeholder={post.text}
@@ -152,15 +160,17 @@ function Home() {
 							/> */}
 							<p>{post.text}</p>
 							<p>by {post.author}</p>
-							<button
-								className="bg-blue-500"
-								onClick={(e) => handleUpdate(e, post)}
-							>
-								Update
-							</button>
-							<button className="bg-red-500" onClick={() => remove(post)}>
-								Delete
-							</button>
+							<div className="space-x-2">
+								<button
+									className="bg-blue-500"
+									onClick={(e) => handleUpdate(e, post)}
+								>
+									Update
+								</button>
+								<button className="bg-red-500" onClick={() => remove(post)}>
+									Delete
+								</button>
+							</div>
 						</div>
 					))}
 				</div>
