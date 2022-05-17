@@ -88,14 +88,10 @@ function Home() {
 
 	const handleUpdate = (e, post) => {
 		if (user.photoURL == post.photoURL) {
-			updateDoc(
-				doc(db, 'post', post.id),
-				{
-					text: e.target.value,
-					timestamp: serverTimestamp(),
-				},
-				{ merge: true }
-			);
+			updateDoc(doc(db, 'post', post.id), {
+				text: e.target.value,
+				timestamp: serverTimestamp(),
+			});
 		}
 	};
 
@@ -156,13 +152,14 @@ function Home() {
 							key={id}
 							className="bg-gray-700 my-2 w-screen flex flex-col items-center"
 						>
-							{/* <input
+							<input
+								className="bg-gray-700"
 								type="text"
 								// placeholder={post.text}
 								value={post.text}
 								onChange={(e) => handleChange(e, post.id)}
-							/> */}
-							<p>{post.text}</p>
+							/>
+							{/* <p>{post.text}</p> */}
 							<p>by {post.author}</p>
 							<div className="space-x-2">
 								<button
