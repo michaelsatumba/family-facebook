@@ -89,30 +89,43 @@ function Home() {
 	const handleUpdate = (e, post) => {
 		if (user.photoURL == post.photoURL) {
 			updateDoc(doc(db, 'post', post.id), {
-				text: e.target.value,
+				text: post.text,
 				timestamp: serverTimestamp(),
 			});
 		}
 	};
 
+	// const handleUpdate = async (e, post) => {
+	// 	try {
+	// 	  await updateDoc(doc(colRef, post.id), {
+	// 		text: post.text,
+	// 		timestamp: serverTimestamp(),
+	// 	  });
+	// 	} catch (e) {
+	// 	  console.log(e.message);
+	// 	}
+	//   };
+
 	//M2: we are mapping through the posts... and in instances where the id matches, copy the other fields and replace text: e.target.value
 	// else where id does not match, return copy of the post
-	const handleChange = (e, id) => {
-		setPosts((posts) => {
-			//(M2) Here
-			return posts.map((post) => {
-				if (post.id === id) {
-					return {
-						...post,
-						text: e.target.value,
-					};
-				} else {
-					return {
-						...post,
-					};
-				}
+	const handleChange = (e, id, post) => {
+		if (user.photoURL == post.photoURL) {
+			setPosts((posts) => {
+				//(M2) Here
+				return posts.map((post) => {
+					if (post.id === id) {
+						return {
+							...post,
+							text: e.target.value,
+						};
+					} else {
+						return {
+							...post,
+						};
+					}
+				});
 			});
-		});
+		}
 	};
 	const incompleteForm = !input;
 	return (
@@ -155,9 +168,8 @@ function Home() {
 							<input
 								className="bg-gray-700"
 								type="text"
-								// placeholder={post.text}
 								value={post.text}
-								onChange={(e) => handleChange(e, post.id)}
+								onChange={(e) => handleChange(e, post.id, post)}
 							/>
 							{/* <p>{post.text}</p> */}
 							<p>by {post.author}</p>
