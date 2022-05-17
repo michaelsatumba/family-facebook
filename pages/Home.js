@@ -81,20 +81,22 @@ function Home() {
 	};
 
 	const remove = (post) => {
-		if (user.displayName == post.author) {
+		if (user.photoURL == post.photoURL) {
 			deleteDoc(doc(db, 'post', post.id));
 		}
 	};
 
-	const handleUpdate = async (e, post) => {
-		await updateDoc(
-			doc(db, 'post', post.id),
-			{
-				text: e.target.value,
-				timestamp: serverTimestamp(),
-			},
-			{ merge: true }
-		);
+	const handleUpdate = (e, post) => {
+		if (user.photoURL == post.photoURL) {
+			updateDoc(
+				doc(db, 'post', post.id),
+				{
+					text: e.target.value,
+					timestamp: serverTimestamp(),
+				},
+				{ merge: true }
+			);
+		}
 	};
 
 	//M2: we are mapping through the posts... and in instances where the id matches, copy the other fields and replace text: e.target.value
