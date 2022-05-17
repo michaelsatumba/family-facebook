@@ -23,8 +23,7 @@ function Home() {
 	const [picture, setPicture] = useState();
 	const [input, setInput] = useState('');
 	const [posts, setPosts] = useState(['hello', 'hi', 'world']);
-	const [inputTwo, setInputTwo] = useState();
-	// const [incompleteForm, setIncompleteForm] = useState('bg-gray-500');
+	const [updateButton, setUpdateButton] = useState('bg-gray-500');
 
 	const colRef = collection(db, 'post');
 
@@ -110,6 +109,7 @@ function Home() {
 	// else where id does not match, return copy of the post
 	const handleChange = (e, id, post) => {
 		if (user.photoURL == post.photoURL) {
+			setUpdateButton('bg-blue-500');
 			setPosts((posts) => {
 				//(M2) Here
 				return posts.map((post) => {
@@ -128,6 +128,7 @@ function Home() {
 		}
 	};
 	const incompleteForm = !input;
+	// const incompleteUpdate = post.text == post.text;
 	return (
 		<div className="min-h-screen bg-gray-900">
 			<div className="flex justify-evenly items-center p-3 bg-gray-700">
@@ -175,12 +176,16 @@ function Home() {
 							<p>by {post.author}</p>
 							<div className="space-x-2">
 								<button
-									className="bg-blue-500"
+									className={`${updateButton} my-2 rounded-md px-5 py-1`}
 									onClick={(e) => handleUpdate(e, post)}
+									// disabled={incompleteUpdate}
 								>
 									Update
 								</button>
-								<button className="bg-red-500" onClick={() => remove(post)}>
+								<button
+									className={`bg-red-500 my-2 rounded-md px-5 py-1`}
+									onClick={() => remove(post)}
+								>
 									Delete
 								</button>
 							</div>
