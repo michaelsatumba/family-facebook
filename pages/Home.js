@@ -80,8 +80,10 @@ function Home() {
 		setInput('');
 	};
 
-	const remove = async (post) => {
-		await deleteDoc(doc(db, 'post', post.id));
+	const remove = (post) => {
+		if (user.displayName == post.author) {
+			deleteDoc(doc(db, 'post', post.id));
+		}
 	};
 
 	const handleUpdate = async (e, post) => {
