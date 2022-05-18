@@ -31,7 +31,6 @@ function Home() {
 	const [picture, setPicture] = useState();
 	const [input, setInput] = useState('');
 	const [posts, setPosts] = useState(['hello', 'hi', 'world']);
-	const [updateButton, setUpdateButton] = useState('bg-gray-500');
 
 	const colRef = collection(db, 'post');
 
@@ -126,7 +125,6 @@ function Home() {
 				//(M2) Here
 				return posts.map((post) => {
 					if (post.id === id) {
-						// setUpdateButton('bg-blue-500');
 						return {
 							...post,
 							text: e.target.value,
@@ -244,4 +242,4 @@ function Home() {
 export default Home;
 
 // TODO:
-// update
+// upload image

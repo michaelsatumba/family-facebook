@@ -7,7 +7,6 @@ export default function Home() {
 	const router = useRouter();
 
 	const signInWithGoogle = () => {
-		// alert('click');
 		const provider = new GoogleAuthProvider();
 		signInWithPopup(authentication, provider)
 			.then((result) => {
