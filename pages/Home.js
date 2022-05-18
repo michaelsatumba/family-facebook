@@ -212,7 +212,6 @@ function Home() {
 							/>
 							<p>by {post.author}</p>
 							<div className="space-x-2">
-								{/* {JSON.stringify(currentId)} */}
 								<button
 									className={`${
 										currentId === post.id ? 'bg-blue-500' : 'bg-gray-500'
