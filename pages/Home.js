@@ -224,10 +224,12 @@ function Home() {
 								</button>
 								<button
 									className={`${
-										user.photoURL ? 'bg-red-500' : 'bg-gray-500'
+										user?.photoURL == post.photoURL
+											? 'bg-red-500'
+											: 'bg-gray-500'
 									} rounded-md px-5 py-1`}
 									onClick={() => remove(post)}
-									disabled={user.photoURLs}
+									disabled={user?.photoURL !== post.photoURL}
 								>
 									Delete
 								</button>
