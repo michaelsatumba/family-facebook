@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { authentication, db } from '../firebase';
+import { authentication, db, storage } from '../firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import {
 	addDoc,
@@ -13,6 +13,14 @@ import {
 	query,
 	updateDoc,
 } from 'firebase/firestore';
+import {
+	ref,
+	uploadBytes,
+	getDownloadURL,
+	listAll,
+	list,
+} from 'firebase/storage';
+import { v4 } from 'uuid';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
@@ -26,6 +34,8 @@ function Home() {
 	const [updateButton, setUpdateButton] = useState('bg-gray-500');
 
 	const colRef = collection(db, 'post');
+
+	const [imageUpload, setImageUpload] = useState(null);
 
 	useEffect(() => {
 		onAuthStateChanged(authentication, (user) => {
@@ -85,13 +95,14 @@ function Home() {
 		}
 	};
 
-	const handleUpdate = (e, post) => {
+	const handleUpdate = (post) => {
 		if (user.photoURL == post.photoURL) {
 			updateDoc(doc(db, 'post', post.id), {
 				text: post.text,
 				timestamp: serverTimestamp(),
 			});
 		}
+		setCurrentId(null);
 	};
 
 	// const handleUpdate = async (e, post) => {
@@ -107,13 +118,15 @@ function Home() {
 
 	//M2: we are mapping through the posts... and in instances where the id matches, copy the other fields and replace text: e.target.value
 	// else where id does not match, return copy of the post
+	const [currentId, setCurrentId] = useState(null);
 	const handleChange = (e, id, post) => {
 		if (user.photoURL == post.photoURL) {
-			setUpdateButton('bg-blue-500');
+			setCurrentId(post.id);
 			setPosts((posts) => {
 				//(M2) Here
 				return posts.map((post) => {
 					if (post.id === id) {
+						// setUpdateButton('bg-blue-500');
 						return {
 							...post,
 							text: e.target.value,
@@ -127,8 +140,19 @@ function Home() {
 			});
 		}
 	};
+
 	const incompleteForm = !input;
 	// const incompleteUpdate = post.text == post.text;
+
+	// const uploadImage = () => {
+	// 	if (imageUpload == null) return;
+	// 	const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
+	// 	uploadBytes(imageRef, imageUpload).then((snapshot) => {
+	// 		getDownloadURL(snapshot.ref).then((url) => {
+	// 			setImageUrls((prev) => [...prev, url]);
+	// 		});
+	// 	});
+	// };
 	return (
 		<div className="min-h-screen bg-gray-900">
 			<div className="flex justify-evenly items-center p-3 bg-gray-700">
@@ -147,7 +171,6 @@ function Home() {
 					type="text"
 					onChange={(e) => setInput(e.target.value)}
 				/>
-
 				<button
 					className={`${
 						incompleteForm ? 'bg-gray-500' : 'bg-blue-500'
@@ -157,6 +180,21 @@ function Home() {
 				>
 					Post
 				</button>
+				{/* <input
+					type="file"
+					onChange={(event) => {
+						setImageUpload(event.target.files[0]);
+					}}
+				/>
+				<button
+					onClick={uploadImage}
+					className={`${
+						incompleteForm ? 'bg-gray-500' : 'bg-blue-500'
+					} my-2 rounded-md px-40 py-1`}
+					disabled={incompleteForm}
+				>
+					Upload Image
+				</button> */}
 			</form>
 
 			<div className="flex flex-col items-center text-white">
@@ -172,19 +210,26 @@ function Home() {
 								value={post.text}
 								onChange={(e) => handleChange(e, post.id, post)}
 							/>
-							{/* <p>{post.text}</p> */}
 							<p>by {post.author}</p>
 							<div className="space-x-2">
+								{/* {JSON.stringify(currentId)} */}
 								<button
-									className={`${updateButton} my-2 rounded-md px-5 py-1`}
-									onClick={(e) => handleUpdate(e, post)}
-									// disabled={incompleteUpdate}
+									className={`${
+										currentId === post.id ? 'bg-blue-500' : 'bg-gray-500'
+									} my-2 rounded-md px-5 py-1`}
+									onClick={() => handleUpdate(post)}
+									disabled={currentId !== post.id}
 								>
 									Update
 								</button>
 								<button
-									className={`bg-red-500 my-2 rounded-md px-5 py-1`}
+									className={`${
+										user.photoURL == post.photoURL
+											? 'bg-red-500'
+											: 'bg-gray-500'
+									} rounded-md px-5 py-1`}
 									onClick={() => remove(post)}
+									disabled={user.photoURL !== post.photoURL}
 								>
 									Delete
 								</button>
