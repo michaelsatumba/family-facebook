@@ -19,9 +19,3 @@ export const authentication = getAuth(app);
 export const db = getFirestore();
 
 export const storage = getStorage(app);
-
-// const colRef = collection(db, 'post');
-
-// getDocs(colRef).then((snapshot) => {
-// 	console.log(snapshot.docs);
-// });

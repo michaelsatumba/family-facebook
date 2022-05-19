@@ -19,6 +19,7 @@ import {
 	getDownloadURL,
 	listAll,
 	list,
+	uploadBytesResumable,
 } from 'firebase/storage';
 import { v4 } from 'uuid';
 import { useRouter } from 'next/router';
@@ -128,6 +129,24 @@ function Home() {
 
 	const incompleteForm = !input;
 
+	const [imgUrl, setImgUrl] = useState(null);
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const file = e.target[0]?.files[0];
+
+		if (!file) return;
+
+		const storageRef = ref(storage, `files/${file.name}`);
+		const uploadTask = uploadBytesResumable(storageRef, file);
+
+		uploadTask.on('state_changed', () => {
+			getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+				setImgUrl(downloadURL);
+			});
+		});
+	};
+
 	return (
 		<div className="min-h-screen bg-gray-900">
 			<div className="flex justify-evenly items-center p-3 bg-gray-700">
@@ -142,7 +161,7 @@ function Home() {
 				<input
 					className="bg-gray-500 rounded-full px-4 py-2"
 					value={input}
-					placeholder="What's on your mind?"
+					placeholder={`What's on your mind?`}
 					type="text"
 					onChange={(e) => setInput(e.target.value)}
 				/>
@@ -157,6 +176,27 @@ function Home() {
 				</button>
 			</form>
 
+			<form onSubmit={handleSubmit} className="form">
+				<input type="file" className="text-white" />
+				<button
+					type="submit"
+					className="text-white bg-blue-500 rounded-md my-2 px-2 py-1"
+				>
+					Upload
+				</button>
+			</form>
+
+			{imgUrl && (
+				<div className="h-14 w-14 relative rounded-lg">
+					<Image
+						src={imgUrl}
+						alt="uploaded file"
+						layout="fill"
+						className="rounded-full"
+					/>
+				</div>
+			)}
+
 			<div className="flex flex-col items-center text-white">
 				<div>
 					{posts.map((post, id) => (
@@ -170,7 +210,20 @@ function Home() {
 								value={post.text}
 								onChange={(e) => handleChange(e, post.id, post)}
 							/>
-							<p>by {post.author}</p>
+							<div className="flex">
+								<p>by {post.author}</p>
+
+								{post.photoURL && (
+									<div className="h-8 w-8 relative rounded-lg mx-2">
+										<Image
+											src={post.photoURL}
+											alt="uploaded file"
+											layout="fill"
+											className="rounded-full"
+										/>
+									</div>
+								)}
+							</div>
 							<div className="space-x-2">
 								<button
 									className={`${
