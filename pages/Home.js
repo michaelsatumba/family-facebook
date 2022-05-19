@@ -128,25 +128,6 @@ function Home() {
 
 	const incompleteForm = !input;
 
-	const [imageUpload, setImageUpload] = useState(null);
-
-	const uploadFiles = (e, file) => {
-		//
-		e.preventDefault();
-		if (!file) return;
-		const sotrageRef = ref(storage, `files/${file.name}`);
-		const uploadTask = uploadBytesResumable(sotrageRef, file);
-
-		uploadTask.on(
-			'state_changed',
-			(error) => console.log(error),
-			() => {
-				getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-					console.log('File available at', downloadURL);
-				});
-			}
-		);
-	};
 	return (
 		<div className="min-h-screen bg-gray-900">
 			<div className="flex justify-evenly items-center p-3 bg-gray-700">
@@ -173,20 +154,6 @@ function Home() {
 					onClick={submit}
 				>
 					Post
-				</button>
-				<input
-					type="file"
-					onChange={(event) => {
-						setImageUpload(event.target.files[0]);
-					}}
-				/>
-				<button
-					onClick={uploadFiles}
-					className={`
-						 bg-blue-500 my-2 rounded-md px-40 py-1`}
-					// disabled={}
-				>
-					Upload Image
 				</button>
 			</form>
 
