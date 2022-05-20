@@ -158,19 +158,34 @@ function Home() {
 				</button>
 			</div>
 
-			<div className="mt-2 flex flex-col bg-gray-700">
-				<form onSubmit={handleSubmit} className="form p-2">
-					<input type="file" className="text-white" />
+			<div className="mt-2 bg-gray-700">
+				<form
+					onSubmit={handleSubmit}
+					className="form p-2 flex flex-col items-center border-black"
+				>
+					<label class="flex flex-col items-center rounded-lg tracking-wide uppercase cursor-pointer bg-white hover:bg-blue-500 hover:text-white text-blue-500 px-32">
+						<svg
+							class="w-8 h-8"
+							fill="currentColor"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 20 20"
+						>
+							<path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+						</svg>
+						<span class="mt-2 text-base leading-normal">Select a file</span>
+						<input type="file" class="hidden" />
+					</label>
+
 					<button
 						type="submit"
-						className="text-white bg-blue-500 rounded-md px-2 py-1"
+						className="text-white bg-gray-500 hover:bg-blue-500 rounded-md mt-2 px-36 py-1"
 					>
 						Upload
 					</button>
 				</form>
 
 				{imgUrl && (
-					<div className="h-32 w-32 relative mt-1 ml-auto mr-auto">
+					<div className="h-32 w-32 relative ml-auto mr-auto">
 						<Image
 							src={imgUrl}
 							alt="uploaded file"
