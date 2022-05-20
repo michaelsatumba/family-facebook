@@ -159,39 +159,45 @@ function Home() {
 			</div>
 
 			<form className="flex flex-col items-center p-3 text-white mt-4 bg-gray-700">
+				<form onSubmit={handleSubmit} className="form">
+					<input type="file" className="text-white" />
+					<button
+						type="submit"
+						className="text-white bg-blue-500 rounded-md px-2 py-1"
+					>
+						Upload
+					</button>
+				</form>
+
+				{imgUrl && (
+					<div className="h-12 w-12 relative m-2">
+						<Image
+							src={imgUrl}
+							alt="uploaded file"
+							layout="fill"
+							className="object-cover"
+						/>
+					</div>
+				)}
+
 				<input
-					className="bg-gray-500 rounded-full px-4 py-2"
+					className="bg-gray-500 rounded-full my-2 px-4 py-2"
 					value={input}
 					placeholder={`What's on your mind?`}
 					type="text"
 					onChange={(e) => setInput(e.target.value)}
 				/>
+
 				<button
 					className={`${
 						incompleteForm ? 'bg-gray-500' : 'bg-blue-500'
-					} my-2 rounded-md px-40 py-1`}
+					} rounded-md px-40 py-1`}
 					disabled={incompleteForm}
 					onClick={submit}
 				>
 					Post
 				</button>
 			</form>
-
-			<form onSubmit={handleSubmit} className="form">
-				<input type="file" className="text-white" />
-				<button
-					type="submit"
-					className="text-white bg-blue-500 rounded-md my-2 px-2 py-1"
-				>
-					Upload
-				</button>
-			</form>
-
-			{imgUrl && (
-				<div className="h-12 w-12 relative mx-2">
-					<Image src={imgUrl} alt="uploaded file" layout="fill" className="" />
-				</div>
-			)}
 
 			<div className="flex flex-col items-center text-white">
 				<div>
