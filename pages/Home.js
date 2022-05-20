@@ -163,7 +163,7 @@ function Home() {
 					onSubmit={handleSubmit}
 					className="form p-2 flex flex-col items-center border-black"
 				>
-					<label class="flex flex-col items-center rounded-lg tracking-wide uppercase cursor-pointer bg-white hover:bg-blue-500 hover:text-white text-blue-500 px-32">
+					<label class="flex flex-col items-center rounded-lg tracking-wide uppercase cursor-pointer bg-white hover:bg-blue-500 hover:text-white text-blue-500 px-16">
 						<svg
 							class="w-8 h-8"
 							fill="currentColor"
@@ -178,7 +178,7 @@ function Home() {
 
 					<button
 						type="submit"
-						className="text-white bg-gray-500 hover:bg-blue-500 rounded-md mt-2 px-36 py-1"
+						className="text-white bg-gray-500 hover:bg-blue-500 rounded-md mt-2 px-32 py-1"
 					>
 						Upload
 					</button>
