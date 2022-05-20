@@ -154,7 +154,7 @@ function Home() {
 				<p className="text-white">Welcome {user?.displayName} </p>
 
 				<button onClick={logout}>
-					<div className="h-14 w-14 relative rounded-lg">{picture}</div>
+					<div className="h-14 w-14 relative">{picture}</div>
 				</button>
 			</div>
 
@@ -188,13 +188,8 @@ function Home() {
 			</form>
 
 			{imgUrl && (
-				<div className="h-14 w-14 relative rounded-lg">
-					<Image
-						src={imgUrl}
-						alt="uploaded file"
-						layout="fill"
-						className="rounded-full"
-					/>
+				<div className="h-12 w-12 relative mx-2">
+					<Image src={imgUrl} alt="uploaded file" layout="fill" className="" />
 				</div>
 			)}
 
@@ -226,7 +221,7 @@ function Home() {
 								<p>by {post.author}</p>
 
 								{post.photoURL && (
-									<div className="h-8 w-8 relative rounded-lg mx-2">
+									<div className="h-8 w-8 relative mx-2">
 										<Image
 											src={post.photoURL}
 											alt="uploaded file"
