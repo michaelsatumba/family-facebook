@@ -201,12 +201,12 @@ function Home() {
 							className="bg-gray-700 my-2 w-screen flex flex-col items-center"
 						>
 							{post.postPhotoURL && (
-								<div className="h-12 w-12 relative my-2">
+								<div className="h-32 w-32 relative my-2">
 									<Image
 										src={post.postPhotoURL}
 										alt="uploaded file"
 										layout="fill"
-										className=""
+										className="object-cover"
 									/>
 								</div>
 							)}
