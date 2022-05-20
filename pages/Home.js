@@ -4,7 +4,6 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import {
 	addDoc,
 	collection,
-	getDocs,
 	serverTimestamp,
 	deleteDoc,
 	doc,
@@ -13,15 +12,7 @@ import {
 	query,
 	updateDoc,
 } from 'firebase/firestore';
-import {
-	ref,
-	uploadBytes,
-	getDownloadURL,
-	listAll,
-	list,
-	uploadBytesResumable,
-} from 'firebase/storage';
-import { v4 } from 'uuid';
+import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
@@ -285,6 +276,3 @@ function Home() {
 }
 
 export default Home;
-
-// TODO:
-// upload image
