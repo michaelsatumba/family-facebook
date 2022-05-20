@@ -1,4 +1,3 @@
-
 ## Table of contents
 
 - [Overview](#overview)
@@ -31,7 +30,7 @@ Users should be able to:
 ### Screenshot
 
 ![](./screenshot1.png)
-![](./screenshot.png)
+![](./screenshot2.png)
 
 <!-- Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
 
@@ -146,26 +145,26 @@ useEffect(() => {
 
 ```js
 const [currentId, setCurrentId] = useState(null);
-	const handleChange = (e, id, post) => {
-		if (user.photoURL == post.photoURL) {
-			setCurrentId(post.id);
-			setPosts((posts) => {
-				//(M2) Here
-				return posts.map((post) => {
-					if (post.id === id) {
-						return {
-							...post,
-							text: e.target.value,
-						};
-					} else {
-						return {
-							...post,
-						};
-					}
-				});
+const handleChange = (e, id, post) => {
+	if (user.photoURL == post.photoURL) {
+		setCurrentId(post.id);
+		setPosts((posts) => {
+			//(M2) Here
+			return posts.map((post) => {
+				if (post.id === id) {
+					return {
+						...post,
+						text: e.target.value,
+					};
+				} else {
+					return {
+						...post,
+					};
+				}
 			});
-		}
-	};
+		});
+	}
+};
 ```
 
 <!-- If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more. -->
