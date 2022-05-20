@@ -45,7 +45,7 @@ function Home() {
 						src={user?.photoURL}
 						alt="userPhoto"
 						layout="fill"
-						className="rounded-full"
+						className="rounded-full object-cover"
 					/>
 				);
 			} else {
@@ -158,8 +158,8 @@ function Home() {
 				</button>
 			</div>
 
-			<form className="flex flex-col items-center p-3 text-white mt-4 bg-gray-700">
-				<form onSubmit={handleSubmit} className="form">
+			<div className="mt-2 flex flex-col bg-gray-700">
+				<form onSubmit={handleSubmit} className="form p-2">
 					<input type="file" className="text-white" />
 					<button
 						type="submit"
@@ -170,7 +170,7 @@ function Home() {
 				</form>
 
 				{imgUrl && (
-					<div className="h-12 w-12 relative m-2">
+					<div className="h-32 w-32 relative mt-1 ml-auto mr-auto">
 						<Image
 							src={imgUrl}
 							alt="uploaded file"
@@ -179,7 +179,9 @@ function Home() {
 						/>
 					</div>
 				)}
+			</div>
 
+			<form className="flex flex-col items-center text-white bg-gray-700">
 				<input
 					className="bg-gray-500 rounded-full my-2 px-4 py-2"
 					value={input}
@@ -191,7 +193,7 @@ function Home() {
 				<button
 					className={`${
 						incompleteForm ? 'bg-gray-500' : 'bg-blue-500'
-					} rounded-md px-40 py-1`}
+					} rounded-md px-40 py-1 mb-2`}
 					disabled={incompleteForm}
 					onClick={submit}
 				>
@@ -232,7 +234,7 @@ function Home() {
 											src={post.photoURL}
 											alt="uploaded file"
 											layout="fill"
-											className="rounded-full"
+											className="rounded-full object-cover"
 										/>
 									</div>
 								)}
