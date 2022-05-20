@@ -82,6 +82,7 @@ function Home() {
 			text: input,
 			author: user.displayName,
 			photoURL: user.photoURL,
+			postPhotoURL: imgUrl ? imgUrl : null,
 			timestamp: serverTimestamp(),
 		});
 		setInput('');
@@ -204,12 +205,23 @@ function Home() {
 							key={id}
 							className="bg-gray-700 my-2 w-screen flex flex-col items-center"
 						>
+							{post.postPhotoURL && (
+								<div className="h-12 w-12 relative my-2">
+									<Image
+										src={post.postPhotoURL}
+										alt="uploaded file"
+										layout="fill"
+										className=""
+									/>
+								</div>
+							)}
 							<input
 								className="bg-gray-700"
 								type="text"
 								value={post.text}
 								onChange={(e) => handleChange(e, post.id, post)}
 							/>
+
 							<div className="flex">
 								<p>by {post.author}</p>
 
