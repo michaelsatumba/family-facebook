@@ -225,13 +225,13 @@ function Home() {
 								</div>
 							)}
 							<input
-								className="bg-gray-700"
+								className="bg-gray-700 mb-2 h-16 w-80 text-center"
 								type="text"
 								value={post.text}
 								onChange={(e) => handleChange(e, post.id, post)}
 							/>
 
-							<div className="flex">
+							<div className="flex ">
 								<p>by {post.author}</p>
 
 								{post.photoURL && (
