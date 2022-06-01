@@ -245,6 +245,9 @@ function Home() {
 									</div>
 								)}
 							</div>
+							<div>
+								<p>{new Date(post.timestamp?.seconds * 1000).toDateString()}</p>
+							</div>
 							<div className="space-x-2">
 								<button
 									className={`${
