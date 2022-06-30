@@ -41,3 +41,27 @@ export default function Home() {
 		</div>
 	);
 }
+
+// work on
+/*
+
+Login Page
+DONE
+
+Home Page
+comment feature
+- post 
+- delete 
+- update
+- timestamp
+
+Profile Page 
+- view other users
+- displays posts
+- bio
+- chat
+
+Chat Page
+
+Connect with metamask?
+*/
